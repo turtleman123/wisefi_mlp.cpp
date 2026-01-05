@@ -1,3 +1,5 @@
+# Set install prefix to project base directory
+set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}" CACHE PATH "Install path prefix" FORCE)
 cmake_minimum_required(VERSION 3.5.0)
 project(mlp VERSION 0.1.0 LANGUAGES CXX) 
 
@@ -35,11 +37,8 @@ target_include_directories(mlp PUBLIC include)
 
 # Install static library to lib directory
 install(TARGETS mlp
-  ARCHIVE DESTINATION lib
+  ARCHIVE DESTINATION .
 )
-
-# Install all headers to include directory
-install(DIRECTORY include/ DESTINATION include)
 
 # Executable for the Iris example
 add_executable(iris_train examples/iris_train.cpp)
