@@ -21,16 +21,25 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -flto=auto -Wno-unused")
 include(CTest)
 enable_testing()
 
+
 # Source files for the MLP library
 set(MLP_SOURCES
-    src/mlp.cpp
-    src/layer.cpp
-    src/neuron.cpp
-    src/utils.cpp
+  src/mlp.cpp
+  src/layer.cpp
+  src/neuron.cpp
+  src/utils.cpp
 )
 
 add_library(mlp STATIC ${MLP_SOURCES})
 target_include_directories(mlp PUBLIC include)
+
+# Install static library to lib directory
+install(TARGETS mlp
+  ARCHIVE DESTINATION lib
+)
+
+# Install all headers to include directory
+install(DIRECTORY include/ DESTINATION include)
 
 # Executable for the Iris example
 add_executable(iris_train examples/iris_train.cpp)
