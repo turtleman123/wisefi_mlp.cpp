@@ -14,9 +14,9 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fno-omit-frame-pointer")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -flto=auto -Wno-unused")
 
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|amd64")
-    add_compile_options(-march=x86-64-v3)
-endif()
+# if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|amd64")
+#     add_compile_options(-march=x86-64-v3)
+# endif()
 
 include(CTest)
 enable_testing()

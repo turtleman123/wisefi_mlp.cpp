@@ -11,6 +11,8 @@ double ftanh(double x);
 double ftanhDerivative(double x);
 double frelu(double x);
 double freluDerivative(double x);
+double fgelu(double x);
+double fgeluDerivative(double x);
 double fidentity(double x);
 double fidentityDerivative(double x);
 std::vector<double> oneHotEncode(double value, int categories);

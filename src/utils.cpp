@@ -30,6 +30,19 @@ double frelu(double x) { return std::max(0.0, x); }
 
 double freluDerivative(double x) { return x > 0.0 ? 1.0 : 0.0; }
 
+double fgelu(double x) {
+    return 0.5 * x * (1.0 + std::tanh(std::sqrt(2.0 / M_PI) * (x + 0.044715 * std::pow(x, 3))));
+}
+
+double fgeluDerivative(double x) {
+    double root_pi = std::sqrt(2.0 / M_PI) * (x + 0.044715 * std::pow(x, 3));
+    double tanhRoot = std::tanh(root_pi);
+    const double tanhTerm = 0.5 * (1 + tanhRoot);
+    const double sech2 = 0.5 * x * (1 - tanhRoot * tanhRoot);
+    const double factor = std::sqrt(2.0 / M_PI) * (1.0 + 3.0 * 0.044715 * x * x);
+    return tanhTerm + sech2 * factor;
+}
+
 double fidentity(double x) { return x; }
 
 double fidentityDerivative(double /*x*/) { return 1.0; }
