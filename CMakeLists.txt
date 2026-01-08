@@ -52,18 +52,20 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/examples/iris.csv DESTINATION ${CMAKE_CURR
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/examples/iris_model.bin DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 # Tests
-add_executable(neuron_test tests/neuron_test.cpp)
-target_include_directories(neuron_test PRIVATE include)
-target_link_libraries(neuron_test mlp)
+if(BUILD_TESTING)
+  add_executable(neuron_test tests/neuron_test.cpp)
+  target_include_directories(neuron_test PRIVATE include)
+  target_link_libraries(neuron_test mlp)
 
-add_executable(layer_test tests/layer_test.cpp)
-target_include_directories(layer_test PRIVATE include)
-target_link_libraries(layer_test mlp)
+  add_executable(layer_test tests/layer_test.cpp)
+  target_include_directories(layer_test PRIVATE include)
+  target_link_libraries(layer_test mlp)
 
-add_executable(mlp_test tests/mlp_test.cpp)
-target_include_directories(mlp_test PRIVATE include)
-target_link_libraries(mlp_test mlp)
+  add_executable(mlp_test tests/mlp_test.cpp)
+  target_include_directories(mlp_test PRIVATE include)
+  target_link_libraries(mlp_test mlp)
 
-add_test(NAME NeuronTest COMMAND neuron_test)
-add_test(NAME LayerTest COMMAND layer_test)
-add_test(NAME MLPTest COMMAND mlp_test)
+  add_test(NAME NeuronTest COMMAND neuron_test)
+  add_test(NAME LayerTest COMMAND layer_test)
+  add_test(NAME MLPTest COMMAND mlp_test)
+endif()
