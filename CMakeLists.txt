@@ -35,9 +35,11 @@ target_include_directories(mlp PUBLIC include)
 
 # Install static library to lib directory
 install(TARGETS mlp
-  ARCHIVE DESTINATION lib
-  PUBLIC_HEADER DESTINATION include
+ARCHIVE DESTINATION lib
 )
+
+# Install header files
+install(DIRECTORY include/ DESTINATION include)
 
 # Executable for the Iris example
 add_executable(iris_train examples/iris_train.cpp)
