@@ -48,7 +48,11 @@ std::vector<double> MLP::getResult() const {
     }
     std::cout << "[DEBUG] getResult called" << std::endl;
     const auto outputs = layers.back().getOutputs();
-    std::cout << "[DEBUG] OUTPUTS" << std::endl;
+    std::cout << "[DEBUG] OUTPUTS: ";
+    for (const auto& output : outputs) {
+        std::cout << output << " ";
+    }
+    std::cout << std::endl;
     return outputs;
 }
 
