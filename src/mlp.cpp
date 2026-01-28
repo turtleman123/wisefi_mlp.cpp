@@ -46,9 +46,9 @@ std::vector<double> MLP::getResult() const {
     if (layers.empty()) {
         throw EmptyNetwork("No layers in the network.");
     }
-    std::cout << "[DEBUG] getResult called" << std::endl;
     const auto outputs = layers.back().getOutputs();
-    std::cout << "[DEBUG] OUTPUTS: ";
+    std::cout << "[DEBUG] OUTPUTS: " << std::endl;
+    std::cout << "[DEBUG] " << outputs.size() << " values: "    << std::endl;
     for (const auto& output : outputs) {
         std::cout << output << " ";
     }
@@ -84,30 +84,17 @@ void MLP::feedForward(const std::vector<double> &inputValues) {
         throw EmptyNetwork("No layers in the network.");
     }
     
-    std::cout << "[DEBUG] feedForward called with " << inputValues.size() << " inputs" << std::endl;
-    std::cout << "[DEBUG] Number of layers: " << layers.size() << std::endl;
-    
     // Directly set the outputs of the input layer.
-    std::cout << "[DEBUG] Setting input layer outputs..." << std::endl;
     layers.front().setOutputs(inputValues);
-    std::cout << "[DEBUG] Input layer outputs set successfully" << std::endl;
 
     for (size_t i = 1; i < layers.size(); ++i) {
-        std::cout << "[DEBUG] Processing layer " << i << "/" << (layers.size() - 1) << std::endl;
-        std::cout << "[DEBUG] Setting inputs for layer " << i << std::endl;
         layers[i].setInputsForAllNeurons(layers[i - 1].getOutputs());
-        std::cout << "[DEBUG] Calculating outputs for layer " << i << std::endl;
         layers[i].calculateOutputs();
-        std::cout << "[DEBUG] Layer " << i << " processed successfully" << std::endl;
     }
 
     if (softmax) {
-        std::cout << "[DEBUG] Applying softmax to output layer..." << std::endl;
         layers.back().applySoftmax();
-        std::cout << "[DEBUG] Softmax applied successfully" << std::endl;
     }
-    
-    std::cout << "[DEBUG] feedForward completed" << std::endl;
 }
 
 void MLP::backPropagate(const std::vector<double> &targetValues) {
