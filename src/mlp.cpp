@@ -46,14 +46,7 @@ std::vector<double> MLP::getResult() const {
     if (layers.empty()) {
         throw EmptyNetwork("No layers in the network.");
     }
-    const auto outputs = layers.back().getOutputs();
-    std::cout << "[DEBUG] OUTPUTS: " << std::endl;
-    std::cout << "[DEBUG] " << outputs.size() << " values: "    << std::endl;
-    for (const auto& output : outputs) {
-        std::cout << output << " ";
-    }
-    std::cout << std::endl;
-    return outputs;
+    return layers.back().getOutputs();
 }
 
 std::vector<Layer> &MLP::getLayers() noexcept { return layers; }
