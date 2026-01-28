@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <utility>
 #include <vector>
+#include <iostream>
 
 Layer::Layer(size_t size, size_t inputsPerNeuron, std::function<double(double)> activationFunc,
              std::function<double(double)> derivActivationFunc, const bool normalize, const bool constantWeightInit)
@@ -24,9 +25,13 @@ std::vector<Neuron> &Layer::getNeurons() noexcept { return neurons; }
 std::vector<double> Layer::getOutputs() const {
     std::vector<double> outputs;
     outputs.reserve(neurons.size());
-    for (const auto &neuron : neurons) {
-        outputs.push_back(neuron.getOutput());
+    std::cout << "[DEBUG] Layer::getOutputs() - Starting retrieval from " << neurons.size() << " neurons" << std::endl;
+    for (size_t i = 0; i < neurons.size(); ++i) {
+        double output = neurons[i].getOutput();
+        outputs.push_back(output);
+        std::cout << "[DEBUG] Layer::getOutputs() - Neuron[" << i << "] output: " << output << std::endl;
     }
+    std::cout << "[DEBUG] Layer::getOutputs() - Retrieved " << outputs.size() << " outputs total" << std::endl;
     return outputs;
 }
 
