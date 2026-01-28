@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <fstream>
 #include <numeric>
@@ -67,15 +68,21 @@ double Neuron::calculatePreOutput() { return std::inner_product(inputs.begin(), 
 
 // Save the number of weights and the weights themselves to the output stream
 void Neuron::save(std::ofstream &out) const {
-    std::size_t numWeights = weights.size();
+    // Use fixed-size type for portability across architectures
+    uint32_t numWeights = static_cast<uint32_t>(weights.size());
     out.write(reinterpret_cast<const char *>(&numWeights), sizeof(numWeights));
     out.write(reinterpret_cast<const char *>(weights.data()), sizeof(double) * numWeights);
+    // Also save bias for complete model state
+    out.write(reinterpret_cast<const char *>(&bias), sizeof(double));
 }
 
 // Read in the number of weights and the weights themselves from the input stream
 void Neuron::load(std::ifstream &in) {
-    std::size_t numWeights;
+    // Use fixed-size type for portability across architectures
+    uint32_t numWeights;
     in.read(reinterpret_cast<char *>(&numWeights), sizeof(numWeights));
     weights.resize(numWeights);
     in.read(reinterpret_cast<char *>(weights.data()), sizeof(double) * numWeights);
+    // Also load bias for complete model state
+    in.read(reinterpret_cast<char *>(&bias), sizeof(double));
 }

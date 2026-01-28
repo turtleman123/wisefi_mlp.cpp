@@ -2,6 +2,7 @@
 #include "neuron.h"
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <format>
 #include <fstream>
 #include <functional>
@@ -127,7 +128,8 @@ void Layer::applySoftmax() {
 }
 
 void Layer::save(std::ofstream &out) const {
-    std::size_t numNeurons = neurons.size();
+    // Use fixed-size type for portability across architectures
+    uint32_t numNeurons = static_cast<uint32_t>(neurons.size());
     out.write(reinterpret_cast<const char *>(&numNeurons), sizeof(numNeurons));
     for (const auto &neuron : neurons) {
         neuron.save(out);
@@ -135,9 +137,14 @@ void Layer::save(std::ofstream &out) const {
 }
 
 void Layer::load(std::ifstream &in) {
-    std::size_t numNeurons;
+    // Use fixed-size type for portability across architectures
+    uint32_t numNeurons;
     in.read(reinterpret_cast<char *>(&numNeurons), sizeof(numNeurons));
-    neurons.resize(numNeurons);
+    // Validate that the layer structure matches what was saved
+    if (neurons.size() != static_cast<size_t>(numNeurons)) {
+        throw std::runtime_error(std::format("Layer neuron count mismatch: expected {}, got {}",
+                                             neurons.size(), numNeurons));
+    }
     for (auto &neuron : neurons) {
         neuron.load(in);
     }
